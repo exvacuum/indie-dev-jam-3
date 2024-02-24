@@ -14,17 +14,23 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private float _horizontalVelocity;
     private bool _grounded;
+    private Animator _animator;
 
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
         var vector2 = _rigidbody2D.position;
-        vector2.x = _horizontalVelocity * Time.deltaTime;
+        vector2.x += _horizontalVelocity * Time.deltaTime;
         _rigidbody2D.position = vector2;
+        _animator.SetFloat("Speed", Mathf.Abs(_horizontalVelocity * Time.deltaTime));
+
+        bool flipped = _horizontalVelocity > 0;
+        this.transform.rotation = Quaternion.Euler(new Vector3(0f, flipped ? 180f : 0f, 0f));
     }
 
     private void OnWalk(InputValue value)
