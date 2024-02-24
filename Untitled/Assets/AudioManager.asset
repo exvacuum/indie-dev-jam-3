@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652c74b606844a94a8783f051fd8985c, type: 3}
   m_Name: AudioManager
   m_EditorClassIdentifier: 
-  _musicMixerGroup: {fileID: 0}
-  _soundEffectMixerGroup: {fileID: 0}
-  _uiEffectMixerGroup: {fileID: 0}
+  _musicMixerGroup: {fileID: 4847607421332812833, guid: 709822954a39c9ea1ba1ed0d8c91b80d, type: 2}
+  _soundEffectMixerGroup: {fileID: 821489570559104133, guid: 709822954a39c9ea1ba1ed0d8c91b80d, type: 2}
+  _uiEffectMixerGroup: {fileID: 816214568113771814, guid: 709822954a39c9ea1ba1ed0d8c91b80d, type: 2}
