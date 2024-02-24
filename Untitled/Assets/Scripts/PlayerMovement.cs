@@ -100,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             _playerTouchingObject = false;
+            _touchedObject = null;
         }
     }
 }
