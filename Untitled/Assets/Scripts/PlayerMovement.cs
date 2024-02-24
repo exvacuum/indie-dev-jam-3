@@ -15,11 +15,13 @@ public class PlayerMovement : MonoBehaviour
     private float _horizontalVelocity;
     private bool _grounded;
     private Animator _animator;
+    private Transform _ladder;
 
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _ladder = GetComponentInChildren<Transform>();
     }
 
     private void Update()
@@ -31,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
         bool flipped = _horizontalVelocity > 0;
         this.transform.rotation = Quaternion.Euler(new Vector3(0f, flipped ? 180f : 0f, 0f));
+        _ladder.rotation = Quaternion.Euler(new Vector3(0f, flipped ? 180f : 0f, 0f));
     }
 
     private void OnWalk(InputValue value)
