@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private float _horizontalVelocity;
     private bool _grounded;
+    private bool _playerTouchingObject;
+    private ThrowableObject _touchedObject;
     private Animator _animator;
     private Transform _ladder;
 
@@ -66,10 +68,17 @@ public class PlayerMovement : MonoBehaviour
     private void OnThrow(InputValue value)
     {
         //TODO
-        if (value.isPressed)
+        if (value.isPressed && _heldObject != null)
         {
             _heldObject.Throw(Mathf.Sign(_horizontalVelocity));
-            this._heldObject = null;
+            _heldObject = null;
+        }
+        else
+        {
+            if (_playerTouchingObject && _heldObject == null)
+            {
+                _heldObject = _touchedObject;
+            }
         }
     }
 
@@ -81,6 +90,17 @@ public class PlayerMovement : MonoBehaviour
                 continue;
             _grounded = true;
             break;
+        }
+
+        if (other.gameObject.GetComponent<ThrowableObject>() != null)
+        {
+            _playerTouchingObject = true;
+            _touchedObject = other.gameObject.GetComponent<ThrowableObject>();
+        }
+        else
+        {
+            _playerTouchingObject = false;
+            _touchedObject = null;
         }
     }
 }
