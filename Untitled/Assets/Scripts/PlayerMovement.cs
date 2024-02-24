@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     private float _jumpImpulse = 5.0f;
     [SerializeField]
     private float _groundedNormalThreshold = 0.8f;
+    [SerializeField]
+    private ThrowableObject _heldObject;
 
     private Rigidbody2D _rigidbody2D;
     private float _horizontalVelocity;
@@ -34,6 +36,11 @@ public class PlayerMovement : MonoBehaviour
         bool flipped = _horizontalVelocity > 0;
         this.transform.rotation = Quaternion.Euler(new Vector3(0f, flipped ? 180f : 0f, 0f));
         _ladder.rotation = Quaternion.Euler(new Vector3(0f, flipped ? 180f : 0f, 0f));
+
+        if (_heldObject != null)
+        {
+            _heldObject.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 1, this.transform.position.x);
+        }
     }
 
     private void OnWalk(InputValue value)
@@ -59,6 +66,11 @@ public class PlayerMovement : MonoBehaviour
     private void OnThrow(InputValue value)
     {
         //TODO
+        if (value.isPressed)
+        {
+            _heldObject.Throw(Mathf.Sign(_horizontalVelocity));
+            this._heldObject = null;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
