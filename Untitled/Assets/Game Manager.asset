@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229f14c0640cd6be8804145e0d008784, type: 3}
+  m_Name: Game Manager
+  m_EditorClassIdentifier: 
+  _menuScene:
+    _sceneAsset: {fileID: 102900000, guid: 9acddc3c85452921bb346958ac30139d, type: 3}
+    _sceneName: MainMenu
+  _gameScene:
+    _sceneAsset: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
+    _sceneName: SampleScene
+  _gamePausedEvent: {fileID: 11400000, guid: 18a441fc567f3c177a620ae7fba898e5, type: 2}
+  _gameResumedEvent: {fileID: 11400000, guid: 3b1f366199099f35e847834eb50fb4b3, type: 2}
