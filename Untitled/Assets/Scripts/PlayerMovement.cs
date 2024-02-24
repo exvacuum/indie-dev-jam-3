@@ -1,23 +1,65 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     private float _movementSpeed = 1.0f;
     [SerializeField]
-    private float _jumpVelocity = 5.0f;
+    private float _jumpImpulse = 5.0f;
+    [SerializeField]
+    private float _groundedNormalThreshold = 0.8f;
 
-    private CharacterController _characterController;
-    private Vector2 _velocity;
-    
-    void Start()
+    private Rigidbody2D _rigidbody2D;
+    private float _horizontalVelocity;
+    private bool _grounded;
+
+    private void Awake()
     {
-        
+        _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    private void Update()
     {
-        
+        var vector2 = _rigidbody2D.position;
+        vector2.x = _horizontalVelocity * Time.deltaTime;
+        _rigidbody2D.position = vector2;
+    }
+
+    private void OnWalk(InputValue value)
+    {
+        var walkValue = value.Get<float>();
+        _horizontalVelocity = walkValue * _movementSpeed;
+    }
+
+    private void OnClimb(InputValue value)
+    {
+        //TODO
+    }
+
+    private void OnJump(InputValue value)
+    {
+        if (value.isPressed && _grounded)
+        {
+            _rigidbody2D.AddForce(new Vector2(0, _jumpImpulse), ForceMode2D.Impulse);
+            _grounded = false;
+        }
+    }
+
+    private void OnThrow(InputValue value)
+    {
+        //TODO
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        foreach (var contact in other.contacts)
+        {
+            if (!(contact.normal.y > _groundedNormalThreshold))
+                continue;
+            _grounded = true;
+            break;
+        }
     }
 }
