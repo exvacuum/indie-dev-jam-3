@@ -10,7 +10,10 @@ public class ThrowableObject : MonoBehaviour
     // Update is called once per frame
     public void Throw(float direction)
     {
+        //Create a vector direction for the throw
         Vector2 throwDir = new Vector2(direction, 0);
+
+        //Throw the object
         throwable.AddForce(throwDir * throwForce, ForceMode2D.Impulse);   
     }
 }
