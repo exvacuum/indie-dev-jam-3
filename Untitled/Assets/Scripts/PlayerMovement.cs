@@ -12,12 +12,18 @@ public class PlayerMovement : MonoBehaviour
     private float _groundedNormalThreshold = 0.8f;
     [SerializeField]
     private ThrowableObject _heldObject;
+    [SerializeField]
+    private ThrowableObject _heldLadder;
+    [SerializeField]
+    private GameObject _placeableLadder;
 
     private Rigidbody2D _rigidbody2D;
     private float _horizontalVelocity;
     private bool _grounded;
-    private bool _playerTouchingObject;
+    private bool _playerTouchingLadder;
+    private bool _ladderPlaced = false;
     private ThrowableObject _touchedObject;
+    private GameObject _ladderObject;
     private Animator _animator;
     private Transform _ladder;
 
@@ -67,18 +73,31 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnThrow(InputValue value)
     {
-        //TODO
-        if (value.isPressed && _heldObject != null)
+        if (value.isPressed && _heldObject != null && !Input.GetKey(KeyCode.DownArrow))
         {
             _heldObject.Throw(Mathf.Sign(_horizontalVelocity));
             _heldObject = null;
         }
-        else
+        else if (_playerTouchingLadder && _heldObject == null)
         {
-            if (_playerTouchingObject && _heldObject == null)
+            if (_ladderPlaced)
+            {
+                _ladderPlaced = false;
+                Destroy(_ladderObject);
+                _ladderObject = Instantiate(_heldLadder.gameObject, new Vector3(this.transform.position.x, this.transform.position.y + 1, this.transform.position.x), Quaternion.identity);
+                _heldObject = _ladderObject.gameObject.GetComponent<ThrowableObject>();
+            }
+            else
             {
                 _heldObject = _touchedObject;
             }
+        }
+        else if (_heldObject && Input.GetKey(KeyCode.DownArrow))
+        {
+            Destroy(_heldObject.gameObject);
+            _heldObject = null;
+            _ladderObject = Instantiate(_placeableLadder.gameObject, new Vector2(_rigidbody2D.position.x, _rigidbody2D.position.y + (float)0.5), Quaternion.identity);
+            _ladderPlaced = true;
         }
     }
 
@@ -94,12 +113,26 @@ public class PlayerMovement : MonoBehaviour
 
         if (other.gameObject.GetComponent<ThrowableObject>() != null)
         {
-            _playerTouchingObject = true;
+            _playerTouchingLadder = true;
             _touchedObject = other.gameObject.GetComponent<ThrowableObject>();
         }
         else
         {
-            _playerTouchingObject = false;
+            _playerTouchingLadder = false;
+            _touchedObject = null;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.GetComponent<ThrowableObject>() != null)
+        {
+            _playerTouchingLadder = true;
+            _touchedObject = other.gameObject.GetComponent<ThrowableObject>();
+        }
+        else
+        {
+            _playerTouchingLadder = false;
             _touchedObject = null;
         }
     }
