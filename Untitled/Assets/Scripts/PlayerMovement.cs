@@ -55,6 +55,20 @@ public class PlayerMovement : MonoBehaviour
         {
             _heldObject.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 1, this.transform.position.x);
         }
+
+        if (_ladderPlaced)
+        {
+            if (_rigidbody2D.position.y > _ladderObject.transform.position.y + 1.5)
+            {
+                //bring gravity back
+                _rigidbody2D.gravityScale = 1;
+                _ladderObject.GetComponent<BoxCollider2D>().isTrigger = false; //make the ladder solid
+            }
+            else
+            {
+                _ladderObject.GetComponent<BoxCollider2D>().isTrigger = true; //make the ladder trigger
+            }
+        }
     }
 
     private void OnWalk(InputValue value)
@@ -68,8 +82,7 @@ public class PlayerMovement : MonoBehaviour
         //If climb key is pressed, the ladder is placed, and the player is touching the ladder
         if (value.isPressed && _ladderPlaced && _playerTouchingLadder)
         {
-            //Make the ladder a trigger
-            _ladderObject.GetComponent<BoxCollider2D>().isTrigger = true;
+            _ladderObject.GetComponent<BoxCollider2D>().isTrigger = true; //make the ladder trigger
             var climbValue = value.Get<float>();
 
             //Set vertical velocity (1 or -1 * movespeed)
@@ -158,13 +171,6 @@ public class PlayerMovement : MonoBehaviour
 
             //Set a reference to the currently touched object
             _touchedObject = other.gameObject.GetComponent<ThrowableObject>();
-
-            //If the ladder is placed:
-            if (_ladderPlaced)
-            {
-                //Set the ladder to be a trigger, so we can walk through it
-                _ladderObject.GetComponent<BoxCollider2D>().isTrigger = true;
-            }
         }
         else
         {
@@ -196,8 +202,8 @@ public class PlayerMovement : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         //When we exit the trigger, we are no longer climbing
+        _ladderObject.GetComponent<BoxCollider2D>().isTrigger = false; //make the ladder solid
         _verticalVelocity = 0; // set the vertical velocity to 0
-        _rigidbody2D.gravityScale = 1; //bring gravity back
-        _ladderObject.GetComponent<BoxCollider2D>().isTrigger = false; //make the ladder solid again
+        _rigidbody2D.gravityScale = 1; //bring gravity back       
     }
 }
