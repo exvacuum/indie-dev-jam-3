@@ -22,11 +22,12 @@ public class PlayerMovement : MonoBehaviour
     private float _verticalVelocity;
     private bool _grounded;
     private bool _playerTouchingLadder;
-    private bool _ladderPlaced = false;
+    private bool _ladderPlaced;
     private ThrowableObject _touchedObject;
     private GameObject _ladderObject;
     private Animator _animator;
     private Transform _ladder;
+    private static readonly int Moving = Animator.StringToHash("Moving");
 
     private void Awake()
     {
@@ -43,18 +44,19 @@ public class PlayerMovement : MonoBehaviour
         _rigidbody2D.position = vector2;
 
         //Set value in animator
-        _animator.SetFloat("Speed", Mathf.Abs(_horizontalVelocity * Time.deltaTime));
+        _animator.SetBool(Moving, Mathf.Abs(_horizontalVelocity * Time.deltaTime) > 0f);
 
         //If the player is holding an object, hold it above the player
         if (_heldObject)
         {
-            _heldObject.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 1, this.transform.position.x);
+            var position = this.transform.position;
+            _heldObject.transform.position = new Vector3(position.x, position.y + 1, position.x);
         }
 
         if (_horizontalVelocity != 0)
         {
             var scale = transform.localScale;
-            scale.x = -Mathf.Sign(_horizontalVelocity);
+            scale.x = Mathf.Sign(_horizontalVelocity);
             transform.localScale = scale;
             _ladder.localScale = scale;
         }
@@ -120,8 +122,29 @@ public class PlayerMovement : MonoBehaviour
             _heldObject.Throw(Mathf.Sign(_horizontalVelocity));
             _heldObject = null;
         }
+    }
+
+    private void OnPlace(InputValue value)
+    {
+        //If the player is holding an object and is pressing the down arrow, place it
+        if (_heldObject )
+        {
+            Destroy(_heldObject.gameObject); //Delete the held ladder
+
+            _heldObject = null; //The player is no longer holding an object
+
+            //Create a new placeable ladder
+            var position = _rigidbody2D.position;
+            _ladderObject = Instantiate(_placeableLadder.gameObject, new Vector2(position.x, position.y + (float)0.5), Quaternion.identity);
+            //The ladder is placed
+            _ladderPlaced = true;
+        }
+    }
+
+    private void OnPickUp(InputValue value)
+    {
         //If the player is touching the ladder, and is not holding an object
-        else if (_playerTouchingLadder && !_heldObject)
+        if (_playerTouchingLadder && !_heldObject)
         {
             //If the ladder is placed
             if (_ladderPlaced)
@@ -129,7 +152,8 @@ public class PlayerMovement : MonoBehaviour
                 Destroy(_ladderObject); //delete the placed ladder
 
                 //Make a new ladder to be held
-                _ladderObject = Instantiate(_heldLadder.gameObject, new Vector3(this.transform.position.x, this.transform.position.y + 1, this.transform.position.x), Quaternion.identity);
+                var position = transform.position;
+                _ladderObject = Instantiate(_heldLadder.gameObject, new Vector3(position.x, position.y + 1, position.x), Quaternion.identity);
                 //Hold the ladder
                 _heldObject = _ladderObject.gameObject.GetComponent<ThrowableObject>();
                 //Ladder is not placed anymore
@@ -140,18 +164,6 @@ public class PlayerMovement : MonoBehaviour
                 //If the ladder isn't placed, we grab the object the player is touching
                 _heldObject = _touchedObject;
             }
-        }
-        //If the player is holding an object and is pressing the down arrow, place it
-        else if (_heldObject && Input.GetKey(KeyCode.DownArrow))
-        {
-            Destroy(_heldObject.gameObject); //Delete the held ladder
-
-            _heldObject = null; //The player is no longer holding an object
-
-            //Create a new placeable ladder
-            _ladderObject = Instantiate(_placeableLadder.gameObject, new Vector2(_rigidbody2D.position.x, _rigidbody2D.position.y + (float)0.5), Quaternion.identity);
-            //The ladder is placed
-            _ladderPlaced = true;
         }
     }
 
