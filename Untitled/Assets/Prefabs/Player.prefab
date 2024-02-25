@@ -135,6 +135,8 @@ MonoBehaviour:
   _jumpImpulse: 10
   _groundedNormalThreshold: 0.8
   _heldObject: {fileID: 0}
+  _heldLadder: {fileID: 4273529649902867356, guid: 61c5d6784f7fa914ba45427152e23bf7, type: 3}
+  _placeableLadder: {fileID: 5816477190106701907, guid: 75119b72857338a4d90860e30b5023dd, type: 3}
 --- !u!50 &3546739681312906756
 Rigidbody2D:
   serializedVersion: 4
