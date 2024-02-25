@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4501311510831311783}
   - component: {fileID: 5253905230301271502}
   - component: {fileID: 2327119570211405478}
-  - component: {fileID: 4531652405571685617}
+  - component: {fileID: 8185230001585158605}
   m_Layer: 0
   m_Name: PlacedLadder
   m_TagString: Untagged
@@ -100,8 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwable: {fileID: 0}
   throwForce: 100
---- !u!70 &4531652405571685617
-CapsuleCollider2D:
+--- !u!61 &8185230001585158605
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -133,5 +133,15 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 2}
+    newSize: {x: 1, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
   m_Size: {x: 1, y: 2}
-  m_Direction: 0
+  m_EdgeRadius: 0

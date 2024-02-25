@@ -20,7 +20,7 @@
                     "id": "aca08d22-5234-4e8f-8d8a-a01b0f1244bf",
                     "expectedControlType": "Axis",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": true
                 },
                 {
