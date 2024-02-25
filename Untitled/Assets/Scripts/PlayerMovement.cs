@@ -41,13 +41,17 @@ public class PlayerMovement : MonoBehaviour
         _rigidbody2D.position = vector2;
         _animator.SetFloat("Speed", Mathf.Abs(_horizontalVelocity * Time.deltaTime));
 
-        bool flipped = _horizontalVelocity > 0;
-        this.transform.rotation = Quaternion.Euler(new Vector3(0f, flipped ? 180f : 0f, 0f));
-        _ladder.rotation = Quaternion.Euler(new Vector3(0f, flipped ? 180f : 0f, 0f));
-
         if (_heldObject != null)
         {
             _heldObject.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 1, this.transform.position.x);
+        }
+        
+        if (_horizontalVelocity != 0)
+        {
+            var scale = transform.localScale;
+            scale.x = -Mathf.Sign(_horizontalVelocity);
+            transform.localScale = scale;
+            _ladder.localScale = scale;
         }
     }
 

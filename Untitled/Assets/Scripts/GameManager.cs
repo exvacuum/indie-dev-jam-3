@@ -18,7 +18,12 @@ public class GameManager : ScriptableObject
     
     private bool _isPaused;
     public bool IsPaused => _isPaused;
-    
+
+    private void OnEnable()
+    {
+        _isPaused = false;
+    }
+
     public void StartGame()
     {
         SceneManager.LoadScene(_gameScene);
@@ -40,6 +45,7 @@ public class GameManager : ScriptableObject
 
     public void QuitToTitle()
     {
+        if(_isPaused) Resume();
         SceneManager.LoadScene(_menuScene);
     }
 
