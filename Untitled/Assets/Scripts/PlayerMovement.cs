@@ -252,7 +252,7 @@ public class PlayerMovement : MonoBehaviour
     //Handles collisions with 2D colliders
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.layer == GroundLayer)
+        if (other.gameObject.layer == GroundLayer || other.gameObject.layer == ClimbableLayer)
         {
             foreach (var contact in other.contacts)
             {
@@ -262,7 +262,21 @@ public class PlayerMovement : MonoBehaviour
                 break;
             }
         }
-
+        
+        if (other.gameObject.layer == ClimbableLayer)
+        {
+            var below = false;
+            foreach (var contact in other.contacts)
+            {
+                if (!(contact.normal.y > _groundedNormalThreshold))
+                    continue;
+                below = true;
+                break;
+            }
+            if(!below)
+                other.gameObject.GetComponent<Collider2D>().isTrigger = true;
+        }
+        
         //If the touched object is throwable
         if (other.gameObject.GetComponent<ThrowableObject>())
         {
@@ -306,6 +320,7 @@ public class PlayerMovement : MonoBehaviour
         
         if (other.gameObject.layer == ClimbableLayer)
         {
+            other.gameObject.GetComponent<Collider2D>().isTrigger = false;
             _isClimbing = false;
             _canClimb = false;
         }
