@@ -58,6 +58,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "5ac79482-7065-4f5a-be05-b28d3bd8a830",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Resume",
+                    "type": "Button",
+                    "id": "058038ce-e413-4eab-90eb-de7112c4cb4a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -99,7 +117,7 @@
                     "id": "8b993fac-2c48-4f2e-8b64-a21b17f3007d",
                     "path": "<Gamepad>/leftStick/x",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "AxisDeadzone(min=0.25)",
                     "groups": "Gamepad",
                     "action": "Walk",
                     "isComposite": false,
@@ -152,7 +170,7 @@
                 {
                     "name": "",
                     "id": "39e19e8a-ce66-4f7c-bf8b-9db9df3e3ba1",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -198,7 +216,7 @@
                     "id": "b2f56a6c-e57c-4d78-8dd5-9c238bc10cc6",
                     "path": "<Gamepad>/leftStick/y",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "AxisDeadzone(min=0.25)",
                     "groups": "Gamepad",
                     "action": "Climb",
                     "isComposite": false,
@@ -326,6 +344,39 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "D-Pad Down + Button West",
+                    "id": "04d1e839-b471-4a05-bbd2-036530ec4b8b",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Place",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "625d0c7f-80fc-459c-aff8-fc9e2b99b5c2",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Place",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "85c4ef45-e363-487d-8c07-dcb367ee5149",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Place",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "3d769335-3ffc-4b1d-8788-d199de6656c9",
                     "path": "<Keyboard>/x",
@@ -346,36 +397,10 @@
                     "action": "Pick Up",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Game Control",
-            "id": "67a559c7-fdfd-4516-b8f1-5bb11b1a4e94",
-            "actions": [
-                {
-                    "name": "Pause",
-                    "type": "Button",
-                    "id": "f445e689-09c6-47fd-9eda-be42b8009c62",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 },
                 {
-                    "name": "Resume",
-                    "type": "Button",
-                    "id": "bf73c7da-644b-4a11-a7d9-de29a2949fdd",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
                     "name": "",
-                    "id": "419b3693-e81a-453a-bd32-638997a3ed8a",
+                    "id": "f8bbf912-61e4-456e-810a-939f7d3aaec1",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
@@ -386,7 +411,7 @@
                 },
                 {
                     "name": "",
-                    "id": "f6e82cfc-f5f0-4a8e-b0fd-103191a522fa",
+                    "id": "e9f4f2f8-be2f-478a-8461-265440d47064",
                     "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
@@ -397,7 +422,7 @@
                 },
                 {
                     "name": "",
-                    "id": "418450a5-3668-4e38-bd91-8e934abc4c04",
+                    "id": "14a3d090-5cf9-48bb-b42b-5834a27e06d1",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
@@ -408,7 +433,7 @@
                 },
                 {
                     "name": "",
-                    "id": "883bf7c0-2628-4147-914e-ba993a60f577",
+                    "id": "a0336018-b57b-49d4-9809-785956c90651",
                     "path": "<Gamepad>/{Cancel}",
                     "interactions": "",
                     "processors": "",
@@ -427,11 +452,6 @@
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
-                    "isOptional": false,
-                    "isOR": false
-                },
-                {
-                    "devicePath": "<Mouse>",
                     "isOptional": false,
                     "isOR": false
                 }
