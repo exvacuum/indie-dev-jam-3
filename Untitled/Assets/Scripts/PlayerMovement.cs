@@ -26,6 +26,15 @@ public class PlayerMovement : MonoBehaviour
     private ThrowableObject _heldLadder;
     [SerializeField]
     private GameObject _placeableLadder;
+    [Header("Audio")]
+    [SerializeField]
+    private AudioManager _audioManager;
+    [SerializeField]
+    private AudioClip _jumpAudioClip;
+    [SerializeField]
+    private AudioClip _throwAudioClip;
+    [SerializeField]
+    private AudioClip _pickUpAudioClip;
 
     private Vector2 _velocity;
     private bool _grounded;
@@ -122,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
             _heldObject.transform.parent = transform.parent;
             _heldObject.Throw(Mathf.Sign(_velocity.x));
             _heldObject = null;
+            _audioManager.PlaySoundAt(_throwAudioClip, transform.position, true);
             return true;
         }
 
@@ -153,6 +163,7 @@ public class PlayerMovement : MonoBehaviour
                 _heldObject = _touchedObject.GetComponent<ThrowableObject>();
             }
 
+            _audioManager.PlaySoundAt(_pickUpAudioClip, transform.position, true);
             return true;
         }
         return false;
@@ -184,6 +195,7 @@ public class PlayerMovement : MonoBehaviour
         if (_wantsToJump && (_grounded || _isClimbing))
         {
             _rigidbody2D.AddForce(Vector2.up * _jumpImpulse, ForceMode2D.Impulse);
+            _audioManager.PlaySoundAt(_jumpAudioClip, transform.position, true);
         }
     }
 
